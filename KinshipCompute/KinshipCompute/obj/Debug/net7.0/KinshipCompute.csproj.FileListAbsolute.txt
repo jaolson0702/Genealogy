@@ -1,0 +1,12 @@
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\bin\Debug\net7.0\KinshipCompute.deps.json
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\bin\Debug\net7.0\KinshipCompute.dll
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\bin\Debug\net7.0\KinshipCompute.pdb
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\KinshipCompute.csproj.AssemblyReference.cache
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\KinshipCompute.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\KinshipCompute.AssemblyInfoInputs.cache
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\KinshipCompute.AssemblyInfo.cs
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\KinshipCompute.csproj.CoreCompileInputs.cache
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\KinshipCompute.dll
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\refint\KinshipCompute.dll
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\KinshipCompute.pdb
+C:\Users\jaols\Documents\Organized\Coding\C#\CSharpProjects\KinshipCompute\KinshipCompute\obj\Debug\net7.0\ref\KinshipCompute.dll
