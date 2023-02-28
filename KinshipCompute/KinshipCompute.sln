@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinshipCompute", "KinshipCompute\KinshipCompute.csproj", "{D5616C6F-AC22-4658-B6DE-55228DF60B7D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5616C6F-AC22-4658-B6DE-55228DF60B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5616C6F-AC22-4658-B6DE-55228DF60B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5616C6F-AC22-4658-B6DE-55228DF60B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5616C6F-AC22-4658-B6DE-55228DF60B7D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F79AD189-4888-4946-B4FD-9411FF4493DA}
+	EndGlobalSection
+EndGlobal
