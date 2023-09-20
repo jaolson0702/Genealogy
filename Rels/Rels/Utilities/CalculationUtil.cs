@@ -18,18 +18,19 @@ namespace Rels
             _ => new GreatGrandchildMolecule(generation - 2).Atoms
         };
 
-        public static RelAtom[] GetAtoms(RelValue value)
+        public static RelAtom[] GetAtoms(this RelIdentifier value)
         {
             if (value is RelAtom atom) return new[] { atom };
             if (value is RelMolecule molecule) return molecule.Atoms;
             throw new NotImplementedException();
         }
 
-        public static RelValue GetValue(params RelSubatomic[] subatomicValues)
+        public static RelIdentifier GetIdentifier(this RelSubatomic[] subatomicValues)
         {
-            RelValue result = subatomicValues[0];
+            if (subatomicValues.Length == 0) return SelfIdentifier.Get;
+            RelIdentifier result = subatomicValues[0];
             for (int a = 1; a < subatomicValues.Length; a++)
-                result = result.With(subatomicValues[a]);
+                result = result.DefaultWith(subatomicValues[a]);
             return result;
         }
     }

@@ -10,27 +10,27 @@ namespace Rels
 
         public static readonly RelAtom HalfSibling = HalfSiblingAtom.Get;
 
-        public static RelValue Progenitor([Range(1, int.MaxValue)] int generation) => generation switch
+        public static RelIdentifier Progenitor([Range(1, int.MaxValue)] int generation) => generation switch
         {
             1 => ParentAtom.Get,
             2 => GrandparentAtom.Get,
             _ => new GreatGrandparentMolecule(generation - 2)
         };
 
-        public static RelValue Progeny([Range(1, int.MaxValue)] int generation) => generation switch
+        public static RelIdentifier Progeny([Range(1, int.MaxValue)] int generation) => generation switch
         {
             1 => ChildAtom.Get,
             2 => GrandchildAtom.Get,
             _ => new GreatGrandchildMolecule(generation - 2)
         };
 
-        public static RelValue Pibling([Range(1, int.MaxValue)] int generation = 1) => generation == 1 ? PiblingAtom.Get : new PiblingMolecule(generation);
+        public static RelIdentifier Pibling([Range(1, int.MaxValue)] int generation = 1) => generation == 1 ? PiblingAtom.Get : new PiblingMolecule(generation);
 
-        public static RelValue HalfPibling([Range(1, int.MaxValue)] int generation = 1) => generation == 1 ? HalfPiblingAtom.Get : new PiblingMolecule(generation, true);
+        public static RelIdentifier HalfPibling([Range(1, int.MaxValue)] int generation = 1) => generation == 1 ? HalfPiblingAtom.Get : new PiblingMolecule(generation, true);
 
-        public static RelValue Nibling([Range(1, int.MaxValue)] int generation = 1) => generation == 1 ? NiblingAtom.Get : new NiblingMolecule(generation);
+        public static RelIdentifier Nibling([Range(1, int.MaxValue)] int generation = 1) => generation == 1 ? NiblingAtom.Get : new NiblingMolecule(generation);
 
-        public static RelValue HalfNibling([Range(1, int.MaxValue)] int generation = 1) => generation == 1 ? HalfNiblingAtom.Get : new NiblingMolecule(generation, true);
+        public static RelIdentifier HalfNibling([Range(1, int.MaxValue)] int generation = 1) => generation == 1 ? HalfNiblingAtom.Get : new NiblingMolecule(generation, true);
 
         public static RelMolecule Cousin([Range(1, int.MaxValue)] int degree = 1, int timesRemoved = 0) => new CousinMolecule(degree, timesRemoved);
 

@@ -1,8 +1,10 @@
-﻿namespace Rels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Rels
 {
     public static class FormatUtil
     {
-        public static string GetGenerationPrefix(int generation) => Math.Abs(generation) switch
+        public static string GetGenerationPrefix([Range(1, int.MaxValue)] int generation) => generation switch
         {
             0 or 1 => string.Empty,
             2 => "grand",
@@ -10,7 +12,7 @@
             _ => $"{GetNumberEnding(generation - 2)}-great-grand"
         };
 
-        public static string GetNumberEnding(int number)
+        public static string GetNumberEnding([Range(1, int.MaxValue)] int number)
         {
             string numStr = number.ToString();
             if (numStr.Length > 1)

@@ -4,10 +4,19 @@
     {
         public readonly RelSubatomic[] SubatomicValues;
 
-        public Rel(params RelSubatomic[] subatomicValues) => SubatomicValues = subatomicValues.Length > 0 ? CalculationUtil.GetValue(subatomicValues).SubatomicValues : subatomicValues;
-
-        public Rel(RelValue relValue) : this(relValue.SubatomicValues)
+        public Rel(params RelIdentifier[] relValues)
         {
+            RelIdentifier sum = SelfIdentifier.Get;
+            Array.ForEach(relValues, relValue => sum += relValue);
+            SubatomicValues = sum.SubatomicValues;
+        }
+
+        public Rel(int generation)
+        {
+            List<RelSubatomic> result = new();
+            RelSubatomic subatomic = generation < 0 ? RelSubatomic.Child : RelSubatomic.Parent;
+            for (int a = 0; a < Math.Abs(generation); a++) result.Add(subatomic);
+            SubatomicValues = result.ToArray().GetIdentifier().SubatomicValues;
         }
 
         public bool Equals(Rel? other)
@@ -19,12 +28,7 @@
             return true;
         }
 
-        public string ToString(Gender? gender) => SubatomicValues.Length > 0 ? CalculationUtil.GetValue(SubatomicValues).ToString(gender) : "self" + gender switch
-        {
-            Gender.Male => " (male)",
-            Gender.Female => " (female)",
-            _ => string.Empty
-        };
+        public string ToString(Gender? gender) => SubatomicValues.GetIdentifier().ToString(gender);
 
         public override bool Equals(object? obj) => base.Equals(obj);
 
@@ -49,10 +53,12 @@
                     _ => subatomic
                 });
             result.Reverse();
-            return new(result.ToArray());
+            return result.ToArray().GetIdentifier();
         }
 
-        public static Rel operator +(Rel left, RelSubatomic right) => new(new List<RelSubatomic>(left.SubatomicValues) { right }.ToArray());
+        public static Rel operator +(Rel left, RelSubatomic right) => new(new List<RelSubatomic>(left.SubatomicValues) { right }.ToArray().GetIdentifier());
+
+        public static Rel operator +(Rel left, RelIdentifier right) => left + new Rel(right);
 
         public static Rel operator +(Rel left, Rel right)
         {
@@ -61,16 +67,14 @@
             return result;
         }
 
-        public static implicit operator Rel(RelValue value) => new(value);
+        public static implicit operator Rel(RelIdentifier[] values) => new(values);
 
-        public static implicit operator Rel(RelSubatomic subatomic) => (RelValue)subatomic;
+        public static implicit operator Rel(RelIdentifier value) => new(value);
 
-        public static implicit operator Rel(int generation)
-        {
-            List<RelSubatomic> result = new();
-            RelSubatomic subatomic = generation < 0 ? RelSubatomic.Child : RelSubatomic.Parent;
-            for (int a = 0; a < Math.Abs(generation); a++) result.Add(subatomic);
-            return new(result.ToArray());
-        }
+        public static implicit operator Rel(RelSubatomic[] subatomicValues) => new(subatomicValues.GetIdentifier());
+
+        public static implicit operator Rel(RelSubatomic subatomic) => (RelIdentifier)subatomic;
+
+        public static implicit operator Rel(int generation) => new(generation);
     }
 }
