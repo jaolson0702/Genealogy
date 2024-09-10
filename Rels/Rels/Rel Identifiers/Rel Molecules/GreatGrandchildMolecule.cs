@@ -2,11 +2,11 @@
 
 namespace Rels
 {
-    public class GreatGrandchildMolecule : RelMolecule
+    public class GreatGrandchildMolecule([Range(1, int.MaxValue)] int generation) : RelMolecule
     {
-        public readonly int Generation;
+        public readonly int Generation = generation;
 
-        public GreatGrandchildMolecule([Range(1, int.MaxValue)] int generation) => Generation = generation;
+        #region Additive Properties
 
         public override RelIdentifier WithChildPrimary => new GreatGrandchildMolecule(Generation + 1);
 
@@ -20,17 +20,19 @@ namespace Rels
 
         public override RelIdentifier[] WithParentAlternates => new RelIdentifier[] { GrandchildAtom.Get };
 
+        #endregion Additive Properties
+
         public override RelAtom[] Atoms
         {
             get
             {
-                List<RelAtom> result = new() { GrandchildAtom.Get };
+                List<RelAtom> result = [GrandchildAtom.Get];
                 for (int a = 0; a < Generation; a++)
                 {
                     if (result[^1] == GrandchildAtom.Get) result.Add(ChildAtom.Get);
                     else result[^1] = GrandchildAtom.Get;
                 }
-                return result.ToArray();
+                return [.. result];
             }
         }
 

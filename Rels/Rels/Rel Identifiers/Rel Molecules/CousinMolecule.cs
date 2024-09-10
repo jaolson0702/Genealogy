@@ -7,6 +7,8 @@ namespace Rels
         public readonly int Degree, TimesRemoved;
         public readonly bool IsHalf;
 
+        #region Constructors
+
         public CousinMolecule([Range(1, int.MaxValue)] int degree, int timesRemoved, bool isHalf = false) => (Degree, TimesRemoved, IsHalf) = (degree, timesRemoved, isHalf);
 
         public CousinMolecule([Range(1, int.MaxValue)] int degree, bool isHalf = false) : this(degree, 0, isHalf)
@@ -16,6 +18,10 @@ namespace Rels
         public CousinMolecule(bool isHalf = false) : this(1, isHalf)
         {
         }
+
+        #endregion Constructors
+
+        #region Additive Properties
 
         public override RelIdentifier WithChildPrimary => new CousinMolecule(Degree + (TimesRemoved > 0 ? 1 : 0), TimesRemoved - 1, IsHalf);
 
@@ -31,11 +37,13 @@ namespace Rels
         {
             get
             {
-                if (Degree == 1 && TimesRemoved == 0) return new RelIdentifier[] { IsHalf ? HalfPiblingAtom.Get : PiblingAtom.Get };
-                if (Degree == 1) return new RelIdentifier[] { new PiblingMolecule(TimesRemoved + 1, IsHalf) };
-                return new RelIdentifier[] { new CousinMolecule(Degree - (TimesRemoved > 0 ? 1 : 0), TimesRemoved + 1, IsHalf) };
+                if (Degree == 1 && TimesRemoved == 0) return [IsHalf ? HalfPiblingAtom.Get : PiblingAtom.Get];
+                if (Degree == 1) return [new PiblingMolecule(TimesRemoved + 1, IsHalf)];
+                return [new CousinMolecule(Degree - (TimesRemoved > 0 ? 1 : 0), TimesRemoved + 1, IsHalf)];
             }
         }
+
+        #endregion Additive Properties
 
         public override RelAtom[] Atoms
         {
@@ -45,7 +53,7 @@ namespace Rels
                 int down = TimesRemoved >= 0 ? Degree : Degree - TimesRemoved;
                 List<RelAtom> result = up == 1 ? new() { !IsHalf ? PiblingAtom.Get : HalfPiblingAtom.Get } : new(new PiblingMolecule(up, IsHalf).Atoms);
                 result.AddRange(CalculationUtil.GetProgenyAtoms(down));
-                return result.ToArray();
+                return [.. result];
             }
         }
 

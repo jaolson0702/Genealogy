@@ -7,14 +7,19 @@
         private HalfSiblingInLawThroughSpouseAtom()
         { }
 
+        public override RelSubatomic[] SubatomicValues => [RelSubatomic.Spouse, RelSubatomic.HalfSibling];
+
+        public override string ToString(Gender? gender) => HalfSiblingAtom.Get.ToString(gender) + "-in-law (through spouse)";
+
+        #region Additive Properties
+
         public override RelIdentifier WithChildPrimary => new NestedMolecule(SpouseAtom.Get, HalfNiblingAtom.Get);
         public override RelIdentifier WithFullSiblingPrimary => this;
         public override RelIdentifier WithHalfSiblingPrimary => new NestedMolecule(this, HalfSiblingAtom.Get);
-        public override RelIdentifier[] WithHalfSiblingAlternates => new RelIdentifier[] { SiblingInLawThroughSpouseAtom.Get, SpouseAtom.Get };
+        public override RelIdentifier[] WithHalfSiblingAlternates => [SiblingInLawThroughSpouseAtom.Get, SpouseAtom.Get];
         public override RelIdentifier WithParentPrimary => new NestedMolecule(this, ParentAtom.Get);
-        public override RelIdentifier[] WithParentAlternates => new RelIdentifier[] { ParentInLawAtom.Get };
-        public override RelSubatomic[] SubatomicValues => new[] { RelSubatomic.Spouse, RelSubatomic.HalfSibling };
+        public override RelIdentifier[] WithParentAlternates => [ParentInLawAtom.Get];
 
-        public override string ToString(Gender? gender) => HalfSiblingAtom.Get.ToString(gender) + "-in-law (through spouse)";
+        #endregion Additive Properties
     }
 }

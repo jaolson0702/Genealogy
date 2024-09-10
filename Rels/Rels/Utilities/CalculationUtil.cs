@@ -20,7 +20,7 @@ namespace Rels
 
         public static RelAtom[] GetAtoms(this RelIdentifier value)
         {
-            if (value is RelAtom atom) return new[] { atom };
+            if (value is RelAtom atom) return [atom];
             if (value is RelMolecule molecule) return molecule.Atoms;
             throw new NotImplementedException();
         }

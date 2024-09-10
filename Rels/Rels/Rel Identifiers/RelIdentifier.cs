@@ -4,6 +4,19 @@
     {
         public abstract RelSubatomic[] SubatomicValues { get; }
 
+        public abstract string ToString(Gender? gender);
+
+        public bool Equals(RelIdentifier? other)
+        {
+            if (other is null) return false;
+            if (SubatomicValues.Length != other.SubatomicValues.Length) return false;
+            for (int a = 0; a < SubatomicValues.Length; a++)
+                if (SubatomicValues[a] != other.SubatomicValues[a]) return false;
+            return true;
+        }
+
+        #region Additive Properties
+
         public virtual RelIdentifier WithPartnerPrimary => new NestedMolecule(this, PartnerAtom.Get);
         public virtual RelIdentifier[] WithPartnerAlternates => Array.Empty<RelIdentifier>();
         public virtual RelIdentifier WithUnmarriedPartnerPrimary => new NestedMolecule(this, UnmarriedPartnerAtom.Get);
@@ -19,7 +32,9 @@
         public abstract RelIdentifier WithParentPrimary { get; }
         public virtual RelIdentifier[] WithParentAlternates => Array.Empty<RelIdentifier>();
 
-        public abstract string ToString(Gender? gender);
+        #endregion Additive Properties
+
+        #region Additive Methods
 
         public RelIdentifier DefaultWith(RelSubatomic subatomic) => subatomic switch
         {
@@ -46,26 +61,21 @@
         };
 
         public RelIdentifier[] AllWith(RelSubatomic subatomic)
-        {
-            List<RelIdentifier> result = new() { DefaultWith(subatomic) };
-            result.AddRange(AlternatesWith(subatomic));
-            return result.ToArray();
-        }
+            => [DefaultWith(subatomic), .. AlternatesWith(subatomic)];
 
-        public bool Equals(RelIdentifier? other)
-        {
-            if (other is null) return false;
-            if (SubatomicValues.Length != other.SubatomicValues.Length) return false;
-            for (int a = 0; a < SubatomicValues.Length; a++)
-                if (SubatomicValues[a] != other.SubatomicValues[a]) return false;
-            return true;
-        }
+        #endregion Additive Methods
+
+        #region Overriden Methods
 
         public override bool Equals(object? obj) => base.Equals(obj);
 
         public override int GetHashCode() => base.GetHashCode();
 
         public override string ToString() => ToString(null);
+
+        #endregion Overriden Methods
+
+        #region Operators
 
         public static RelIdentifier operator +(RelIdentifier left, RelSubatomic right) => left.DefaultWith(right);
 
@@ -81,5 +91,7 @@
         public static bool operator !=(RelIdentifier left, RelIdentifier right) => !(left == right);
 
         public static implicit operator RelIdentifier(RelSubatomic subatomic) => (RelAtom)subatomic;
+
+        #endregion Operators
     }
 }

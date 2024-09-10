@@ -8,9 +8,9 @@
         {
             get
             {
-                List<RelSubatomic> result = new();
+                List<RelSubatomic> result = [];
                 Array.ForEach(Atoms, value => result.AddRange(value.SubatomicValues));
-                return result.ToArray();
+                return [.. result];
             }
         }
 

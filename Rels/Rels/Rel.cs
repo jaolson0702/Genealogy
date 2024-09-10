@@ -1,23 +1,88 @@
-﻿namespace Rels
+﻿using System.Net.Http.Headers;
+
+namespace Rels
 {
-    public class Rel : IEquatable<Rel>
+    public sealed partial class Rel : IEquatable<Rel>
     {
         public readonly RelSubatomic[] SubatomicValues;
 
-        public Rel(params RelIdentifier[] relValues)
+        #region Constructors
+
+        private Rel(params RelIdentifier[] relValues)
         {
             RelIdentifier sum = SelfIdentifier.Get;
             Array.ForEach(relValues, relValue => sum += relValue);
             SubatomicValues = sum.SubatomicValues;
         }
 
-        public Rel(int generation)
+        private Rel(int generation)
         {
-            List<RelSubatomic> result = new();
+            List<RelSubatomic> result = [];
             RelSubatomic subatomic = generation < 0 ? RelSubatomic.Child : RelSubatomic.Parent;
             for (int a = 0; a < Math.Abs(generation); a++) result.Add(subatomic);
             SubatomicValues = result.ToArray().GetIdentifier().SubatomicValues;
         }
+
+        #endregion Constructors
+
+        public RelType[] Types
+        {
+            get
+            {
+                if (SubatomicValues.Length == 0) return [];
+                List<RelType> result = [GetTypeFrom(SubatomicValues[0])];
+                for (int a = 1; a < SubatomicValues.Length; a++)
+                {
+                    switch (SubatomicValues[a])
+                    {
+                        case RelSubatomic.Child:
+                            if (result[^1] == RelType.Child)
+                                result[^1] = RelType.Descendant;
+                            else if (result[^1] != RelType.Descendant)
+                                result.Add(GetTypeFrom(SubatomicValues[a]));
+                            break;
+
+                        case RelSubatomic.FullSibling:
+                            if (new RelType[] { RelType.Parent, RelType.Partner, RelType.Progenitor }.Contains(result[^1]))
+                                result.Add(GetTypeFrom(SubatomicValues[a]));
+                            break;
+
+                        case RelSubatomic.HalfSibling:
+                            if (result[^1] == RelType.FullSibling)
+                                result[^1] = RelType.HalfSibling;
+                            else
+                                result.Add(GetTypeFrom(SubatomicValues[a]));
+                            break;
+
+                        case RelSubatomic.Parent:
+                            if (result[^1] == RelType.FullSibling)
+                                result[^1] = RelType.Parent;
+                            else if (result[^1] == RelType.Parent)
+                                result[^1] = RelType.Progenitor;
+                            else if (result[^1] != RelType.Progenitor)
+                                result.Add(GetTypeFrom(SubatomicValues[a]));
+                            break;
+
+                        default:
+                            result.Add(GetTypeFrom(SubatomicValues[a]));
+                            break;
+                    }
+                }
+
+                return [.. result];
+            }
+        }
+
+        private static RelType GetTypeFrom(RelSubatomic subatomic) => subatomic switch
+        {
+            RelSubatomic.Child => RelType.Child,
+            RelSubatomic.FullSibling => RelType.FullSibling,
+            RelSubatomic.HalfSibling => RelType.HalfSibling,
+            RelSubatomic.Parent => RelType.Parent,
+            _ => RelType.Partner
+        };
+
+        #region Overriden Methods
 
         public bool Equals(Rel? other)
         {
@@ -36,6 +101,10 @@
 
         public override string ToString() => ToString(null);
 
+        #endregion Overriden Methods
+
+        #region Operators
+
         public static bool operator ==(Rel left, Rel right) => left.Equals(right);
 
         public static bool operator !=(Rel left, Rel right) => !(left == right);
@@ -44,7 +113,7 @@
 
         public static Rel operator !(Rel given)
         {
-            List<RelSubatomic> result = new();
+            List<RelSubatomic> result = [];
             foreach (RelSubatomic subatomic in given.SubatomicValues)
                 result.Add(subatomic switch
                 {
@@ -76,5 +145,16 @@
         public static implicit operator Rel(RelSubatomic subatomic) => (RelIdentifier)subatomic;
 
         public static implicit operator Rel(int generation) => new(generation);
+
+        public static bool operator >(Rel left, Rel right) => left.SubatomicValues.Length > right.SubatomicValues.Length;
+
+        public static bool operator <(Rel left, Rel right)
+        {
+            if ((left == Partner || left == UnmarriedPartner || left == Spouse) && right.SubatomicValues.Length == 1) return true;
+            if (left == Sibling && right.SubatomicValues.Length == 1) return true;
+            return left.SubatomicValues.Length < right.SubatomicValues.Length;
+        }
+
+        #endregion Operators
     }
 }

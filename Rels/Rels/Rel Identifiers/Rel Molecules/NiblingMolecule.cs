@@ -9,6 +9,8 @@ namespace Rels
 
         public NiblingMolecule([Range(2, int.MaxValue)] int generation, bool isHalf = false) => (Generation, IsHalf) = (generation, isHalf);
 
+        #region Additive Properties
+
         public override RelIdentifier WithChildPrimary => new NiblingMolecule(Generation + 1, IsHalf);
 
         public override RelIdentifier WithFullSiblingPrimary => this;
@@ -23,18 +25,19 @@ namespace Rels
         {
             get
             {
-                if (Generation == 2) return new RelIdentifier[] { IsHalf ? HalfNiblingAtom.Get : NiblingAtom.Get };
-                return new RelIdentifier[] { new NiblingMolecule(Generation - 1, IsHalf) };
+                if (Generation == 2) return [IsHalf ? HalfNiblingAtom.Get : NiblingAtom.Get];
+                return [new NiblingMolecule(Generation - 1, IsHalf)];
             }
         }
+
+        #endregion Additive Properties
 
         public override RelAtom[] Atoms
         {
             get
             {
-                List<RelAtom> result = new() { IsHalf ? RelSubatomic.HalfSibling : RelSubatomic.FullSibling };
-                result.AddRange(CalculationUtil.GetProgenyAtoms(Generation));
-                return result.ToArray();
+                List<RelAtom> result = [IsHalf ? RelSubatomic.HalfSibling : RelSubatomic.FullSibling, .. CalculationUtil.GetProgenyAtoms(Generation)];
+                return [.. result];
             }
         }
 

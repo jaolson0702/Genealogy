@@ -1,5 +1,5 @@
 ﻿using Rels;
 
-Rel rel = RelFactory.Progenitor(2) + RelFactory.Cousin();
+Rel rel = Rel.GreatGrandparent() + Rel.Cousin();
 
 Console.WriteLine(rel);

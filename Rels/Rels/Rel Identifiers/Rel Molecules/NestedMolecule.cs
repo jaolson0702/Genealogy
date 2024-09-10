@@ -9,8 +9,10 @@
             (Value1, Value2) = (value1, value2);
             List<RelAtom> atoms = new(value1.GetAtoms());
             atoms.AddRange(value2.GetAtoms());
-            Atoms = atoms.ToArray();
+            Atoms = [.. atoms];
         }
+
+        #region Additive Properties
 
         public override RelIdentifier[] WithPartnerAlternates => GetAlternates(Value2.WithPartnerAlternates);
 
@@ -34,17 +36,19 @@
 
         public override RelIdentifier[] WithParentAlternates => GetAlternates(Value2.WithParentAlternates);
 
+        #endregion Additive Properties
+
         public override RelAtom[] Atoms { get; }
 
         public override string ToString(Gender? gender) => Value2.ToString(gender) + " of " + Value1;
 
         private RelIdentifier[] GetAlternates(RelIdentifier[] value2Alt)
         {
-            List<NestedMolecule> nested = new();
+            List<NestedMolecule> nested = [];
             foreach (RelIdentifier value in value2Alt) nested.Add(new NestedMolecule(Value1, value));
-            List<RelIdentifier> result = new();
+            List<RelIdentifier> result = [];
             nested.ForEach(n => result.Add(n.Value2 == SelfIdentifier.Get ? Value1 : n));
-            return result.ToArray();
+            return [.. result];
         }
     }
 }
