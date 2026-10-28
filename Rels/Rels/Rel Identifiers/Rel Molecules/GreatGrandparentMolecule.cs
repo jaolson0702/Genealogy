@@ -6,6 +6,8 @@ namespace Rels
     {
         public readonly int Generation = generation;
 
+        public override RelIdentifier ClosestCommonProgenitor => this;
+
         #region Additive Properties
 
         public override RelIdentifier[] WithPartnerAlternates => new RelIdentifier[] { this };

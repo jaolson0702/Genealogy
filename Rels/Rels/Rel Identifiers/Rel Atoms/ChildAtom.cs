@@ -4,6 +4,8 @@
     {
         public static readonly ChildAtom Get = new();
 
+        public override RelIdentifier ClosestCommonProgenitor => SelfIdentifier.Get;
+
         private ChildAtom()
         { }
 

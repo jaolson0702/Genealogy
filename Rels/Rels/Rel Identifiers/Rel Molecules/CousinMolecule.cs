@@ -7,6 +7,18 @@ namespace Rels
         public readonly int Degree, TimesRemoved;
         public readonly bool IsHalf;
 
+        public override RelIdentifier ClosestCommonProgenitor
+        {
+            get
+            {
+                int parentCount = Degree + Math.Max(0, TimesRemoved) + 1;
+
+                return parentCount == 2
+                    ? GrandparentAtom.Get
+                    : new GreatGrandparentMolecule(parentCount - 2);
+            }
+        }
+
         #region Constructors
 
         public CousinMolecule([Range(1, int.MaxValue)] int degree, int timesRemoved, bool isHalf = false) => (Degree, TimesRemoved, IsHalf) = (degree, timesRemoved, isHalf);

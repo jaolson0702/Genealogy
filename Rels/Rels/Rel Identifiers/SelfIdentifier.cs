@@ -10,6 +10,8 @@ namespace Rels
     {
         public static readonly SelfIdentifier Get = new();
 
+        public override RelIdentifier ClosestCommonProgenitor => this;
+
         public override RelSubatomic[] SubatomicValues => [];
 
         private SelfIdentifier()

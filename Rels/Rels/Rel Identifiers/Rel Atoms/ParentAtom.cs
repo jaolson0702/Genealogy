@@ -4,6 +4,8 @@
     {
         public static readonly ParentAtom Get = new();
 
+        public override RelIdentifier ClosestCommonProgenitor => this;
+
         private ParentAtom()
         { }
 

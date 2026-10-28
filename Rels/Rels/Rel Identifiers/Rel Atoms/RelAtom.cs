@@ -11,6 +11,7 @@
             RelSubatomic.Partner => PartnerAtom.Get,
             RelSubatomic.Spouse => SpouseAtom.Get,
             RelSubatomic.UnmarriedPartner => UnmarriedPartnerAtom.Get,
+            RelSubatomic.Null => NullAtom.Get,
             _ => throw new NotImplementedException()
         };
     }

@@ -4,6 +4,8 @@
     {
         public readonly RelIdentifier Value1, Value2;
 
+        public override RelIdentifier ClosestCommonProgenitor => NullAtom.Get;
+
         public NestedMolecule(RelIdentifier value1, RelIdentifier value2)
         {
             (Value1, Value2) = (value1, value2);

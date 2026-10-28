@@ -4,6 +4,8 @@
     {
         public static readonly PiblingAtom Get = new();
 
+        public override RelIdentifier ClosestCommonProgenitor => GrandparentAtom.Get;
+
         private PiblingAtom()
         { }
 

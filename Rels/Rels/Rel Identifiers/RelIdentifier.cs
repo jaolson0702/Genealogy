@@ -4,6 +4,8 @@
     {
         public abstract RelSubatomic[] SubatomicValues { get; }
 
+        public abstract RelIdentifier ClosestCommonProgenitor { get; }
+
         public abstract string ToString(Gender? gender);
 
         public bool Equals(RelIdentifier? other)
@@ -45,6 +47,7 @@
             RelSubatomic.FullSibling => WithFullSiblingPrimary,
             RelSubatomic.HalfSibling => WithHalfSiblingPrimary,
             RelSubatomic.Parent => WithParentPrimary,
+            RelSubatomic.Null => NullAtom.Get,
             _ => throw new NotImplementedException()
         };
 
@@ -63,9 +66,11 @@
         public RelIdentifier[] AllWith(RelSubatomic subatomic)
             => [DefaultWith(subatomic), .. AlternatesWith(subatomic)];
 
+        public Rel Rel => (Rel)this;
+
         #endregion Additive Methods
 
-        #region Overriden Methods
+        #region Overridden Methods
 
         public override bool Equals(object? obj) => base.Equals(obj);
 
@@ -73,7 +78,7 @@
 
         public override string ToString() => ToString(null);
 
-        #endregion Overriden Methods
+        #endregion Overridden Methods
 
         #region Operators
 

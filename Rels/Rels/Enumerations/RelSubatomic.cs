@@ -8,6 +8,7 @@
         Parent,
         Partner,
         Spouse,
-        UnmarriedPartner
+        UnmarriedPartner,
+        Null
     }
 }

@@ -4,6 +4,8 @@
     {
         public static readonly NiblingAtom Get = new();
 
+        public override RelIdentifier ClosestCommonProgenitor => ParentAtom.Get;
+
         private NiblingAtom()
         { }
 

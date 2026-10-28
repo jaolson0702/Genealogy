@@ -4,6 +4,8 @@
     {
         public static readonly UnmarriedPartnerAtom Get = new();
 
+        public override RelIdentifier ClosestCommonProgenitor => NullAtom.Get;
+
         private UnmarriedPartnerAtom()
         { }
 

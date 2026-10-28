@@ -4,6 +4,8 @@
     {
         public static readonly GrandparentAtom Get = new();
 
+        public override RelIdentifier ClosestCommonProgenitor => this;
+
         private GrandparentAtom()
         { }
 

@@ -1,5 +1,3 @@
-﻿using Rels;
+﻿using RelTest;
 
-Rel rel = Rel.GreatGrandparent() + Rel.Cousin();
-
-Console.WriteLine(rel);
+RelInteractive.Run();

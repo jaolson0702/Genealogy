@@ -7,6 +7,8 @@ namespace Rels
         public readonly int Generation;
         public readonly bool IsHalf;
 
+        public override RelIdentifier ClosestCommonProgenitor => new GreatGrandparentMolecule(Generation - 1);
+
         public PiblingMolecule([Range(2, int.MaxValue)] int generation, bool isHalf = false) => (Generation, IsHalf) = (generation, isHalf);
 
         #region Additive Properties

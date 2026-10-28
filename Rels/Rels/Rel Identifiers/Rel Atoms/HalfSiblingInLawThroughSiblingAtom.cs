@@ -4,6 +4,8 @@
     {
         public static readonly HalfSiblingInLawThroughSiblingAtom Get = new();
 
+        public override RelIdentifier ClosestCommonProgenitor => NullAtom.Get;
+
         private HalfSiblingInLawThroughSiblingAtom()
         { }
 

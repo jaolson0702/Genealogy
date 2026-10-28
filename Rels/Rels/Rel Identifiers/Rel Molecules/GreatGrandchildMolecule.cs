@@ -6,6 +6,8 @@ namespace Rels
     {
         public readonly int Generation = generation;
 
+        public override RelIdentifier ClosestCommonProgenitor => SelfIdentifier.Get;
+
         #region Additive Properties
 
         public override RelIdentifier WithChildPrimary => new GreatGrandchildMolecule(Generation + 1);
